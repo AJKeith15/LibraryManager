@@ -1,0 +1,13 @@
+//- new-book view includes error and form views
+
+extends layout
+
+block content
+    h1= "New Book"
+    form(action="/books/new", method="post")
+        include error
+        include form
+        input(type="submit" value="Create New Book")
+        br
+    p
+        a(href="/") Cancel
