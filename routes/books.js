@@ -44,12 +44,15 @@ router.post('/new', asyncHandler(async (req, res) => {
 }));
 
 /* GET book detail form */
-router.get("/:id", asyncHandler(async (req, res) => {
+router.get("/:id", asyncHandler(async (req, res, next) => {
   const book = await Book.findByPk(req.params.id)
   if (book) {
     res.render("update-book", { book, title: book.title }); 
   } else {
-    res.render("page-not-found", {title: "Page Not Found"})
+    const err = new Error()
+    err.status = 404
+    err.message = 'This book does not exist in the library.'
+    next(err)
   }
 }));
 
@@ -68,7 +71,7 @@ router.post('/:id', asyncHandler(async (req, res) => {
     if(error.name === "SequelizeValidationError") {
       book = await Book.build(req.body);
       book.id = req.params.id; // make sure correct article gets updated
-      res.render("update-book", { book, errors: error.errors, title: "Edit Book" })
+      res.render("update-book", { book, errors: error.errors, title: ""})
     } else {
       throw error;
     }

@@ -10,6 +10,6 @@ block content
         input(type="submit" value="Update Book")
         br
         p
-            a(href="/") Cancel
+            a(class="button", href="/") Cancel
     form(action="/books/" + book.id + "/delete", method="post")
         input(class="button", href="/books", type="submit", value="Delete Book")

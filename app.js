@@ -24,17 +24,21 @@ app.use('/books', books);
 
 // catch 404 and forward to error handler
 app.use( (req, res, next) => {
-  next(createError(404));
+  console.log('404 error 1')
+  res.status(404).render("page-not-found")
 });
 
-// error handler
+// global error handler
 app.use( (err, req, res, next) => {
   // set locals, only providing error in development
-  console.error(err.message)
-  res.locals.error = req.app.get('env') === 'development' ? err : {};
-
-  // render the page-not-found page
-  res.status(err.status || 500).render("page-not-found", {title: "Page Not Found"});
+  if (err.status === 404) {
+    console.log('404 error 2')
+    res.status(404).render("page-not-found", {err})
+  } else {
+    console.log('Not 404 error')
+    err.message = err.message || 'Oops! Something went wrong with the server :('
+    res.status(err.status || 500).render("error-handler", {err})
+  }
 });
 
 module.exports = app;

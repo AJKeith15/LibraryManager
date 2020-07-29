@@ -1,9 +1,9 @@
-//- page-not-found view
+//- error-handler view
 
 extends layout
 
 block content
-    h1= "404 - Page Not Found"
+    h1= err.status + "Error!"
     p= err.message
     br
     a(class="button", href="/") Home
